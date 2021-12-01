@@ -21,7 +21,7 @@ npm install
 nodemon app
 ```
 
-Once you see that the mentioned port is being listened to, you can access the application on your browser
+### Once you see that the mentioned port is being listened to, you can access the application on your browser
 ```
 http://localhost:3000
 ```
