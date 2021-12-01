@@ -1,0 +1,189 @@
+<%- include("../partials/header3.ejs"); -%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+    <!-- <base href="/"> -->
+    <link rel="stylesheet" type="text/css" href="../../public/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      function addColour(){
+        document.getElementById("add-book").style.color = "rgba(239, 68, 68)";
+      }
+     $(document).ready(function(){
+        $("#subform").click(function(e){
+          e.preventDefault();
+          const title = $("#title").val();
+          const branch = $( "#branch option:selected" ).text();
+          const author = $("#author").val();
+          const publication = $("#publication").val();
+          const edition = $("#edition").val();
+          const isAvailable = $( "#isAvailable option:selected" ).text();
+          const description = $("#description").val();
+          const source = $("#source").val()
+
+          const titleError = $("#title-error");
+          const authorError = $("#author-error");
+          const publicationError = $("#publication-error");
+          const editionError = $("#edition-error");
+          const sourceError = $("#source-error");
+
+          
+          titleError.html("");
+          authorError.html("");
+          publicationError.html("");
+          editionError.html("");
+          sourceError.html("");
+
+
+          const data = { title, branch, author, publication, edition, isAvailable, description, source };
+          
+          $.ajax({
+            type: 'POST',
+            url: '/admin/edit-book/<%=book._id%>',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data){
+              location.assign("/admin");
+            },
+            error: function(err){
+                titleError.html(err.responseJSON.errors.title);
+                authorError.html(err.responseJSON.errors.author);
+                publicationError.html(err.responseJSON.errors.publication);
+                editionError.html(err.responseJSON.errors.edition);
+                sourceError.html(err.responseJSON.errors.source);
+
+                
+            }
+          });
+
+        });
+      });
+      </script>
+
+</head>
+<body>
+    <section id="setdetails" class="text-gray-600 body-font relative">
+        <form class="container px-5 py-20 mx-auto">
+            <!-- <div class="container px-5 py-24 mx-auto"> -->
+                <div class="flex flex-col text-center w-full mb-12">
+                  <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Add Books</h1>
+                  <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Fill in the below form to add new book(s).</p>
+                </div>
+    
+                <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                  <div class="flex flex-wrap -m-2">
+
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="title" class="leading-7 text-sm text-gray-600">Title</label>
+                        <input value="<%= book.title %>" type="text" id="title" name="title" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="title-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="branch" class="leading-7 text-sm text-gray-600">What is the book about?</label>
+                        <select name="branch" id="branch" class="w-full h-10 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <% var options = ["Computer Science", "Maths", "Physics", "Chemistry", "Management", "Social Sciences", "Electronics", "Women's Studies", "Arts"]; %>
+                            <option value='<%= book.branch %>'><%= book.branch %></option>
+                            <% for(var i = 0; i < options.length; i++) { %>
+                              <% if(book.branch != options[i]) {%>
+                                <option value='<%= options[i] %>'><%= options[i] %></option>
+                              <% } %>
+                            <% } %>
+                        </select>
+                        <!-- <input type="email" id="email" name="email" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
+                      </div>
+                    </div>
+
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="author" class="leading-7 text-sm text-gray-600">Author</label>
+                        <input value="<%= book.author %>" type="text" id="author" name="text" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="author-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="publication" class="leading-7 text-sm text-gray-600">Publication</label>
+                        <input value="<%= book.publication %>" type="text" id="publication" name="publication" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="publication-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="edition" class="leading-7 text-sm text-gray-600">Edition</label>
+                          <input value="<%= book.edition %>" type="number" id="edition" name="edition" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div id="edition-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="isAvailable" class="leading-7 text-sm text-gray-600">Available?</label>
+                          
+                          <select name="isAvailable" id="isAvailable" class="w-full h-10 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <% var option = [true, false]; %>
+                            <option value="<%=book.isAvailable%>"><%=book.isAvailable%></option>
+                            <% for(var i = 0; i < option.length; i++) { %>
+                              <% if(book.isAvailable != option[i]) {%>
+                                <option value="<%=option[i]%>"><%=option[i]%></option>
+                              <% } %>
+                            <% } %>
+                          </select>
+                        </div>
+                    </div>
+
+                    
+
+                    
+
+                    <div class="p-2 w-full">
+                      <div class="relative">
+                        <label for="description" class="leading-7 text-sm text-gray-600">Description</label>
+                        <textarea id="description" name="description" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"><%= book.description %></textarea>
+                        <!-- <div id="address-error" class="text-xs text-red-600"></div> -->
+                      </div>
+                    </div>
+
+                    <div class="p-2 w-full">
+                      <div class="relative">
+                        <label for="source" class="leading-7 text-sm text-gray-600">Link For The Source</label>
+                        <input value="<%=book.source%>" type="text" id="source" name="source" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="source-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+                    
+                    <div class="p-2 w-full">
+                      <button id="subform" class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Update</button>
+                      <!-- <p class="mt-4 justify-center">Already have an account? <a href="./login" class="text-blue-600 underline">Login</a>
+                      </p> -->
+                    </div>
+                    
+                </div>
+              </div>
+             
+    
+        </form>
+        
+    
+</body>
+</html>
+
+
+
+    <%- include("../partials/footer.ejs"); -%>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<%- include("../partials/header4.ejs"); -%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Tutorial</title>
+
+    <link rel="stylesheet" href="../../../public/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      function addColour(){
+        document.getElementById("tuts").style.color = "rgba(239, 68, 68)";
+      }
+    </script>
+    <script>
+ 
+     $(document).ready(function(){
+        $("#subform").click(function(e){
+          e.preventDefault();
+          const title = $("#title").val();
+          const course = $( "#course option:selected" ).text();
+          const semester = $( "#semester option:selected" ).text();
+          const source = $("#source").val();
+          const description = $("#description").val();
+
+
+          const titleError = $("#title-error");
+          const sourceError = $("#source-error");
+          const descriptionError = $("#description-error");
+
+          
+          titleError.html("");
+          sourceError.html("");
+          descriptionError.html("");
+
+
+          const data = { title, course, semester, source, description };
+          
+          $.ajax({
+            type: 'POST',
+            url: '/faculty/tutorials/edit-tutorial/<%=tut._id%>',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data){
+              location.assign("/faculty/tutorials/"+course.toLowerCase());
+            },
+            error: function(err){
+                titleError.html(err.responseJSON.errors.title);
+                sourceError.html(err.responseJSON.errors.source);
+                descriptionError.html(err.responseJSON.errors.description);
+                
+            }
+          });
+
+        });
+      });
+      </script>
+
+</head>
+<body>
+    <script>addColour();</script>
+    <section id="setdetails" class="text-gray-600 body-font relative">
+        <form class="container px-5 py-20 mx-auto">
+            <!-- <div class="container px-5 py-24 mx-auto"> -->
+                <div class="flex flex-col text-center w-full mb-12">
+                  <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Add Tutorial</h1>
+                  <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Add a YouTube Video Tutorial.</p>
+                </div>
+    
+                <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                  <div class="flex flex-wrap -m-2">
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="title" class="leading-7 text-sm text-gray-600">Tutorial Title</label>
+                          <input value="<%=tut.title%>" type="text" id="title" name="title" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div id="title-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="course" class="leading-7 text-sm text-gray-600">Course</label>
+                        <select name="course" id="course" class="w-full h-10 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <%var option = ["IMTech", "MTech", "MCA", "IMSc", "MSc", "BBA", "MBA", "IMA", "MA"];%>
+    
+                            <option value="<%=tut.course%>"><%=tut.course%></option>
+                            <% for(var i = 0; i < option.length; i++) { %>
+                              <% if(tut.course != option[i]) {%>
+                                <option value="<%=option[i]%>"><%=option[i]%></option>
+                              <% } %>
+                            <% } %>
+                        </select>
+                        <!-- <input type="email" id="email" name="email" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
+                      </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="semester" class="leading-7 text-sm text-gray-600">Semester</label>
+                          <select name="semester" id="semester" class="w-full h-10 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                              <%var option = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];%>
+                        
+                              <option value="<%=tut.course%>"><%=tut.semester%></option>
+                                <% for(var i = 0; i < option.length; i++) { %>
+                                    <% if(tut.semester != option[i]) {%>
+                                        <option value="<%=option[i]%>"><%=option[i]%></option>
+                                    <% } %>
+                                <% } %>
+
+                          </select>
+                          <!-- <input type="email" id="email" name="email" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
+                        </div>
+                    </div>
+
+
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="source" class="leading-7 text-sm text-gray-600">YouTube Link</label>
+                        <input value="<%=tut.source%>" type="text" id="source" name="source" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="source-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+
+
+                    
+                    <div class="p-2 w-full">
+                        <div class="relative">
+                          <label for="description" class="leading-7 text-sm text-gray-600">Description</label>
+                          <textarea id="description" name="description" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 h-32 text-base outline-none text-gray-700 py-1 px-3 
+                          resize-none leading-6 transition-colors duration-200 ease-in-out"><%=tut.description%></textarea>
+                          <div id="description-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-2 w-full">
+                      <button id="subform" class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Update</button>
+                    </div>
+                    
+                </div>
+              </div>
+             
+    
+        </form>
+        
+    
+</body>
+</html>
+
+
+
+    <%- include("../partials/footer.ejs"); -%>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<%- include("../partials/header4.ejs"); -%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Home</title>
+    <!-- <script>
+      function addColour(){
+        document.getElementById("library").style.color = "rgba(239, 68, 68)";
+      }
+    </script> -->
+</head>
+    <body>
+      <!-- <script>addColour();</script> -->
+        <section class="text-gray-600 body-font">
+            <div class="container px-5 py-20 mx-auto flex flex-wrap">
+             
+              <div class="flex flex-col flex-wrap lg:py-6 -mb-10 lg:w-2/3 lg:pl-12 lg:text-left text-center">
+                <div class="flex flex-col mb-10 lg:items-start items-center">
+                  <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-red-100 text-red-500 mb-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+                    </svg>
+                  </div>
+                  <div class="flex-grow border-b-2 pb-3">
+                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Library Services</h2>
+                    <p class="leading-relaxed text-base">Get any book you want and return within 7 days or request for the same book again.</p>
+                    <a href="/faculty/library" class="mt-3 text-red-500 inline-flex items-center cursor-pointer">Go
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+                <!-- <div class="flex flex-col mb-10 lg:items-start items-center">
+                  <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-red-100 text-red-500 mb-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10.496 2.132a1 1 0 00-.992 0l-7 4A1 1 0 003 8v7a1 1 0 100 2h14a1 1 0 100-2V8a1 1 0 00.496-1.868l-7-4zM6 9a1 1 0 00-1 1v3a1 1 0 102 0v-3a1 1 0 00-1-1zm3 1a1 1 0 012 0v3a1 1 0 11-2 0v-3zm5-1a1 1 0 00-1 1v3a1 1 0 102 0v-3a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="flex-grow border-b-2 pb-3">
+                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Hostel Services</h2>
+                    <p class="leading-relaxed text-base">A hosteler? Check out your hostel management here and tell us if there are issues.</p>
+                    <a class="mt-3 text-red-500 inline-flex items-center cursor-pointer">Go
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div> -->
+                <div class="flex flex-col mb-10 lg:items-start items-center">
+                  <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-red-100 text-red-500 mb-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="flex-grow border-b-2 pb-3">
+                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Online Tutorials</h2>
+                    <p class="leading-relaxed text-base">Access all the tutorials set up by your respective faculty and make learning easy.</p>
+                    <a href="/faculty/tutorials" class="mt-3 text-red-500 inline-flex items-center cursor-pointer">Go
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+                </div>
+
+    
+                <div class="lg:w-1/3 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">
+                    <!-- <img alt="feature" class="object-cover object-center h-full w-full" src="https://dummyimage.com/460x500"> -->
+                    <div class="flex flex-col mb-10 lg:items-start items-center mt-6 bg-red-400 text-white lg:mr-12">
+                        <!-- <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-red-100 text-red-500 mb-5">
+                          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                          </svg>
+                        </div> -->
+                        <div class="flex-grow shadow-md p-3">
+                          <%var today = new Date();%>
+                          <%var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();%>
+                          <h2 class="text-lg title-font font-medium mb-3 text-white"><%=date%></h2>
+                          
+                       
+                           
+                          </a>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mb-10 lg:items-start items-center">
+                        <div class="flex-grow">
+                            <h1 class="text-gray-900 text-2xl title-font font-medium mb-3">Your Details</h1>
+
+                            <table cellspacing="0">
+                                <tr>
+                                    <th align="left" width="300" height="50">Full Name :</th>
+                                    <td align="left" width="300" height="50"><%= user.fullname.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') %></td>
+                                </tr>
+                                <tr>
+                                    <th align="left" width="350" height="50">Department :</th>
+                                    <td align="left" width="300" height="50"><%= user.department.toUpperCase() %></td>
+                                </tr>
+                                <tr>
+                                    <th align="left" width="350" height="50">Faculty ID :</th>
+                                    <td align="left" width="300" height="50"><%= user.facultyid.toUpperCase() %></td>
+                                </tr>
+                                <tr>
+                                    <th align="left" width="350" height="50">Email :</th>
+                                    <td align="left" width="300" height="50"><%= user.email %></td>
+                                </tr>
+                                <tr>
+                                    <th align="left" width="350" height="50">Phone :</th>
+                                    <td align="left" width="300" height="50"><%= user.phone %></td>
+                                </tr>
+                                <tr>
+                                    <th align="left" width="350" height="50">Address :</th>
+                                    <td align="left" width="300" height="50"><%= user.address.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' '); %></td>
+                                </tr>
+                
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+          </section>
+          <%- include("../partials/footer.ejs"); -%>
+    </body>
+</html>

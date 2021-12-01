@@ -1,0 +1,159 @@
+<%- include("../partials/header5.ejs"); -%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Hostel</title>
+
+    <link rel="stylesheet" href="../public/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      function addColour(){
+        document.getElementById("add-hostel").style.color = "rgba(239, 68, 68)";
+      }
+     $(document).ready(function(){
+        $("#subform").click(function(e){
+          e.preventDefault();
+          const name = $("#name").val();
+          const warden = $("#warden").val();
+          const hostelFor = $( "#hostelFor option:selected" ).text();
+          const nRooms = $("#nRooms").val();
+          const email= $("#email").val();
+          const phone = $("#phone").val()
+
+          const nameError = $("#name-error");
+          const wardenError = $("#warden-error");
+          const nRoomsError = $("#rooms-error");
+          const emailError = $("#email-error");
+          const phoneError = $("#phone-error");
+
+          
+          nameError.html("");
+          wardenError.html("");
+          nRoomsError.html("");
+          emailError.html("");
+          phoneError.html("");
+
+
+          const data = { name, warden, hostelFor, nRooms, email, phone };
+          
+          $.ajax({
+            type: 'POST',
+            url: '/admin1/add-hostel',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data){
+              location.assign("/admin1");
+            },
+            error: function(err){
+                nameError.html(err.responseJSON.errors.name);
+                wardenError.html(err.responseJSON.errors.warden);
+                nRoomsError.html(err.responseJSON.errors.nRooms);
+                emailError.html(err.responseJSON.errors.email);
+                phoneError.html(err.responseJSON.errors.phone);
+                
+            }
+          });
+
+        });
+      });
+    </script>
+
+</head>
+<body>
+    <script>addColour();</script>
+    <section id="setdetails" class="text-gray-600 body-font relative">
+        <form class="container px-5 py-20 mx-auto">
+            <!-- <div class="container px-5 py-24 mx-auto"> -->
+                <div class="flex flex-col text-center w-full mb-12">
+                  <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Add Hostel</h1>
+                  <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Fill in the below form to add hostel details.</p>
+                </div>
+    
+                <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                  <div class="flex flex-wrap -m-2">
+
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
+                        <input type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="name-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="warden" class="leading-7 text-sm text-gray-600">Warden</label>
+                          <input type="text" id="warden" name="warden" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div id="warden-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="hostelFor" class="leading-7 text-sm text-gray-600">Hostel For</label>
+                        <select name="hostelFor" id="hostelFor" class="w-full h-10 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <%var options = ["Women", "Men"];%>
+                            <% for(var i = 0; i < options.length; i++) { %>
+                                <option value='<%= options[i] %>'><%= options[i] %></option>
+                            <% } %>
+                        </select>
+                      </div>
+                    </div>
+
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="nRooms" class="leading-7 text-sm text-gray-600">Total Rooms</label>
+                          <input type="number" id="nRooms" name="nRooms" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div id="rooms-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
+                        <input type="email" id="email" name="email" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="email-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="phone" class="leading-7 text-sm text-gray-600">Phone Number</label>
+                          <input type="tel" id="phone" name="phone" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div id="phone-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div>
+
+              
+
+                    <div class="p-2 w-full">
+                      <button id="subform" class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Add</button>
+                      <!-- <p class="mt-4 justify-center">Already have an account? <a href="./login" class="text-blue-600 underline">Login</a>
+                      </p> -->
+                    </div>
+                    
+                </div>
+              </div>
+             
+    
+        </form>
+        
+    
+</body>
+</html>
+
+
+
+    <%- include("../partials/footer.ejs"); -%>
+</body>
+</html>

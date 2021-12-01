@@ -1,0 +1,116 @@
+<%- include("../partials/header5.ejs"); -%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Hostel</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      function addColour(){
+        document.getElementById("list-hostels").style.color = "rgba(239, 68, 68)";
+      }
+      
+    
+     </script>
+</head>
+<body>
+    <script>addColour();</script>
+
+  
+    <section class="text-gray-600 body-font mt-7">
+
+     <!-- <div class="pt-2 relative mx-12 text-gray-600 flex justify-center sm:justify-end">
+        
+        <input class="border-2 border-gray-300 h-10 px-5 pr-16 rounded-lg text-sm focus:border-red-500 bg-gray-50 outline-none
+          type="search" name="search" placeholder="Search...">
+        <button type="submit" class="relative right-0 top-0 mt-2 mr-4 ml-5">
+          <svg class="text-gray-500 h-7 w-7 fill-current" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+            viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+            width="512px" height="512px">
+            <path
+              d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+          </svg>
+        </button>
+      </div> -->
+
+
+
+
+
+        <div class="container px-5 py-24 mx-auto ">
+
+          
+            <% if (hostels.length > 0) { %>
+              <div class="flex flex-wrap -m-4 lg:mx-8">
+                <% for(let i = 0; i < hostels.length; i++) { %>
+                  
+                  <div class="p-4 w-full md:w-1/3">
+                    <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+                      <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-red-500 text-white flex-shrink-0">
+
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                          </svg>
+                        </div>
+                        <h2 class="text-gray-900 text-lg title-font font-medium"> <%= hostels[i].name.toUpperCase() %> </h2>
+                      </div>
+                      <div class="flex-grow">
+                        <p class="leading-relaxed text-base"> <strong>Warden: </strong> <%= hostels[i].warden.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') %> </p>
+                        <p class="leading-relaxed text-base"> <strong>For: </strong> <%= hostels[i].hostelFor %> </p>
+                        <p class="leading-relaxed text-base"> <strong>Total Rooms: </strong> <%= hostels[i].nRooms %> </p>
+                        <p class="leading-relaxed text-base"> <strong>Email: </strong> <%= hostels[i].email %> </p>
+                        <p class="leading-relaxed text-base"> <strong>Phone No. : </strong> <%= hostels[i].phone %> </p>
+                        <p class="leading-relaxed text-base"> <strong>Available: </strong> <%= hostels[i].areAvailable.length %> </p>
+
+
+
+                       
+
+                        <div class="flex justify-end space-x-10">
+
+                        
+                         
+                            <!-- <button class="mt-3 text-red-500 inline-flex items-center"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg> </button> -->
+                          <!-- </form> -->
+                    
+
+                        <form action="/admin1/edit-hostel/<%=hostels[i]._id%>" method="">
+                          <button class="mt-3 text-red-500 inline-flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            </svg>
+                          </button>
+                        </form>
+                        
+                      </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+            
+
+                  
+                <% } %> 
+              </div>
+            <% } else { %>
+              <div class="h-20"></div>
+              <div class="h-20">
+                <h1 class="flex justify-center text-3xl pt-10">No Hostel Information</h1>
+              </div>
+            <% } %>
+          
+        </div>
+      </section>
+  
+      <div class="mt-20 pt-12">
+    <%- include("../partials/footer.ejs"); -%>
+      </div>
+</body>
+</html>

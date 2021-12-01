@@ -1,0 +1,64 @@
+<%- include("../partials/header4.ejs"); -%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Tutorial</title>
+
+    <script>
+      function addColour(){
+        document.getElementById("tuts").style.color = "rgba(239, 68, 68)";
+      }
+    </script>
+</head>
+<body>
+    <script>addColour();</script>
+    <section class="text-gray-600 body-font">
+      <button onclick="window.location.href = '/faculty/tutorials/add-tuts'" 
+      class="flex mx-auto mt-20 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none
+       hover:bg-red-600 rounded text-lg">Add Tutorial</button>
+
+       <h2 class="flex justify-center text-3xl mt-12">Consists of all courses.</h2>
+       
+          <%- include("../partials/scis.ejs"); -%>
+
+       
+          <%- include("../partials/maths.ejs"); -%>
+
+       
+          <%- include("../partials/physics.ejs"); -%>
+
+      
+          <%- include("../partials/chemistry.ejs"); -%>
+
+      
+          <%- include("../partials/lifeSciences.ejs"); -%>
+
+       
+          <%- include("../partials/management.ejs"); -%>
+
+      
+          <%- include("../partials/socialSciences.ejs"); -%>
+
+       
+          <%- include("../partials/humanities.ejs"); -%>
+
+       
+          <%- include("../partials/economics.ejs"); -%>
+
+      
+          <%- include("../partials/artsCommunication.ejs"); -%>
+     
+       
+    </section>
+
+
+    <div class="mt-20 pt-20">
+      <%- include("../partials/footer.ejs"); -%>
+    </div>
+
+    
+</body>
+</html>

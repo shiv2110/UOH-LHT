@@ -1,0 +1,232 @@
+<%- include("../partials/header2.ejs"); -%>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Room</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        function addColour(){
+          document.getElementById("hostel").style.color = "rgba(239, 68, 68)";
+        }
+    </script>
+
+    <script>
+        function verifyName(name){
+            let regex = /^[A-Za-z ]{1,40}$/
+            if(name.match(regex)) {
+              return true
+            }
+            else{
+              return false
+            }
+        }
+
+        function verifyPhone(phone){
+            let regex = /^[0-9]{10,12}$/
+            if(phone.match(regex)) {
+              return true
+            }
+            else{
+              return false
+            }
+        }
+        $(document).ready(function(){
+            $("#subform").click(function(e){
+                e.preventDefault();
+                const guardian = $("#guardian").val();
+                const guardianPhone = $("#gphone").val();
+                const bloodGroup = $( "#bloodg option:selected" ).text();
+                const gender = $( "#gender option:selected" ).text();
+                const medicalConcerns = $("#medical").val();
+                const regno = '<%=user.regno%>';
+                        
+                const guardianError = $("#guardian-error");
+                const gphoneError = $("#gphone-error");
+                
+                guardianError.html("");
+                gphoneError.html("");
+
+                const data = { regno, guardian, guardianPhone, bloodGroup, gender, medicalConcerns };
+
+                if (verifyName(guardian) && verifyPhone(guardianPhone)){
+                    guardianError.html("");
+                    gphoneError.html("");
+                    $.ajax({
+                        type: 'POST',
+                        url: '/student/hostel/get-room',
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function(data){
+                            location.assign("/student/hostel");
+                        
+                        },
+                        error: function(err){
+                          // console.log("error occurred!!");
+                          location.assign("/student/hostel");
+
+                          // console.log(err);
+                        }
+                    });
+                    
+                }
+                else if(!verifyName(guardian) && !verifyPhone(guardianPhone)){
+                    // e.preventDefault();
+                    guardianError.html("Enter guardian's name");
+                    gphoneError.html("Enter a valid phone number");                
+                }
+                else if(!verifyName(guardian)){
+                    // e.preventDefault();
+                    gphoneError.html("");
+                    guardianError.html("Enter guardian's name");
+                }
+                else if(!verifyPhone(guardianPhone)){
+                    // e.preventDefault();
+                    guardianError.html("");
+                    gphoneError.html("Enter a valid phone number");                
+
+                }
+          
+          
+
+        });
+      });
+    </script>
+</head>
+
+<body>
+    <script>addColour();</script>
+    <section class="text-gray-600 body-font mx-10">
+        <div class="flex justify-end">
+            <button onclick="window.location.href = '/student/hostel'" class="flex mx-10 mt-20 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Your Hostel</button>
+            <button class="flex mt-20 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Vacate</button>
+        </div>
+        <form class="container px-5 py-20 mx-auto">
+            <!-- <div class="container px-5 py-24 mx-auto"> -->
+                <div class="flex flex-col text-center w-full mb-12">
+                  <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Request for a Room</h1>
+                  <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Fill in the below form to get a hostel room.</p>
+                </div>
+    
+                <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                  <div class="flex flex-wrap -m-2">
+
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="guardian" class="leading-7 text-sm text-gray-600">Guardian</label>
+                        <input type="text" id="guardian" name="guardian" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="guardian-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="gphone" class="leading-7 text-sm text-gray-600">Guardian's Phone</label>
+                          <input type="tel" id="gphone" name="gphone" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div id="gphone-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="bloodg" class="leading-7 text-sm text-gray-600">Blood Group</label>
+                          <select name="bloodg" id="bloodg" class="w-full h-10 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                              <%var options = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];%>
+                              <% for(var i = 0; i < options.length; i++) { %>
+                                  <option value='<%= options[i] %>'><%= options[i] %></option>
+                              <% } %>
+                          </select>
+                          <!-- <input type="email" id="email" name="email" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
+                        </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="gender" class="leading-7 text-sm text-gray-600">Gender</label>
+                        <select name="gender" id="gender" class="w-full h-10 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <%var options = ["Female", "Male"];%>
+                            <% for(var i = 0; i < options.length; i++) { %>
+                                <option value='<%= options[i] %>'><%= options[i] %></option>
+                            <% } %>
+                        </select>
+                        <!-- <input type="email" id="email" name="email" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
+                      </div>
+                    </div>
+
+               
+
+
+
+
+                    <!-- <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="publication" class="leading-7 text-sm text-gray-600">Publication</label>
+                        <input type="text" id="publication" name="publication" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="publication-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="edition" class="leading-7 text-sm text-gray-600">Edition</label>
+                          <input type="number" id="edition" name="edition" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div id="edition-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="p-2 w-1/2"> -->
+                        <!-- <div class="relative">
+                          <label for="isAvailable" class="leading-7 text-sm text-gray-600">Available?</label>
+                          <select name="isAvailable" id="isAvailable" class="w-full h-10 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                              
+                              <option value="True">true</option>
+                              <option value="False">false</option>
+                          </select>
+                        </div>
+                    </div> -->
+
+                    
+
+                    
+
+                    <div class="p-2 w-full">
+                      <div class="relative">
+                        <label for="medical" class="leading-7 text-sm text-gray-600">Any Medical Concerns?</label>
+                        <textarea id="medical" name="medical" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                        <!-- <div id="address-error" class="text-xs text-red-600"></div> -->
+                      </div>
+                    </div>
+
+                    <!-- <div class="p-2 w-full">
+                      <div class="relative">
+                        <label for="source" class="leading-7 text-sm text-gray-600">Link For The Source</label>
+                        <input type="text" id="source" name="source" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="source-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div> -->
+
+                    <div class="p-2 w-full">
+                      <button id="subform" class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Request</button>
+                      <!-- <p class="mt-4 justify-center">Already have an account? <a href="./login" class="text-blue-600 underline">Login</a>
+                      </p> -->
+                    </div>
+                    
+                </div>
+              </div>
+             
+    
+        </form>
+        
+    </section>
+    <div class="mt-20 pt-20">
+        <%- include("../partials/footer.ejs"); -%>
+    </div>
+</body>
+</html>

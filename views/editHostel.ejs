@@ -1,0 +1,221 @@
+<%- include("../partials/header5.ejs"); -%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Hostel</title>
+
+    <!-- <link rel="stylesheet" href="../public/styles.css"> -->
+    <!-- <style>
+      .change {
+        background-color: rgba(110, 231, 183);
+      }
+
+    </style> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script></script>
+    
+    <script>
+      
+ 
+      var available = JSON.parse('<%-JSON.stringify(hostel.areAvailable)%>');
+      // var available = [];
+      // areAvailable = hostel.areAvailable;
+      function addOrDelete (btnid) {
+            // 
+            var btn = document.getElementById(btnid).innerHTML;
+            var str = '<strong class="text-red-400">'+btnid.toString()+'</strong>';
+            var str1 = '<strong class="text-green-700">'+btnid.toString()+'</strong>';
+
+            // console.log(str);
+           
+            if (btn == str) {
+              document.getElementById(btnid).innerHTML = str1;
+              available.push(btnid);
+              
+            }
+            else {
+              document.getElementById(btnid).innerHTML = str;
+              available.pop(btnid);
+           
+            }
+            console.log(available);
+
+      
+
+
+            return false;
+      }
+     $(document).ready(function(){
+        $("#subform").click(function(e){
+          e.preventDefault();
+
+          const name = $("#name").val();
+          const warden = $("#warden").val();
+          const hostelFor = $( "#hostelFor option:selected" ).text();
+        //   const nRooms = $("#nRooms").val();
+        //   const email= $("#email").val();
+          const phone = $("#phone").val()
+
+          const nameError = $("#name-error");
+          const wardenError = $("#warden-error");
+        //   const nRoomsError = $("#rooms-error");
+        //   const emailError = $("#email-error");
+          const phoneError = $("#phone-error");
+
+          
+          nameError.html("");
+          wardenError.html("");
+        //   nRoomsError.html("");
+        //   emailError.html("");
+          phoneError.html("");
+          
+
+          const data = { name, warden, hostelFor, phone, available };
+          // console.log(available);
+
+          
+          $.ajax({
+            type: 'POST',
+            url: '/admin1/edit-hostel/<%=hostel._id%>',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data){
+              location.assign("/admin1");
+              // console.log(available);
+            },
+            error: function(err){
+                nameError.html(err.responseJSON.errors.name);
+                wardenError.html(err.responseJSON.errors.warden);
+                // nRoomsError.html(err.responseJSON.errors.nRooms);
+                // emailError.html(err.responseJSON.errors.email);
+                phoneError.html(err.responseJSON.errors.phone);
+                
+            }
+          });
+
+        });
+      });
+    </script>
+
+    <script>
+      
+
+    </script>
+
+</head>
+<body>
+    <!-- <script>addColour();</script> -->
+    <section id="setdetails" class="text-gray-600 body-font relative">
+        <form class="container px-5 py-20 mx-auto">
+            <!-- <div class="container px-5 py-24 mx-auto"> -->
+                <div class="flex flex-col text-center w-full mb-12">
+                  <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Edit Hostel</h1>
+                  <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Fill in the below form to edit hostel details.</p>
+                </div>
+    
+                <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                  <div class="flex flex-wrap -m-2">
+
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
+                        <input value="<%=hostel.name%>" type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <div id="name-error" class="text-xs text-red-600"></div>
+                      </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="warden" class="leading-7 text-sm text-gray-600">Warden</label>
+                          <input value="<%=hostel.warden%>" type="text" id="warden" name="warden" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div id="warden-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-2 w-1/2">
+                      <div class="relative">
+                        <label for="hostelFor" class="leading-7 text-sm text-gray-600">Hostel For</label>
+                        <select name="hostelFor" id="hostelFor" class="w-full h-10 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <%var options = ["Women", "Men"];%>
+                            <option value="<%=hostel.hostelFor%>"><%=hostel.hostelFor%></option>
+                            <% for(var i = 0; i < options.length; i++) { %>
+                              <% if(hostel.hostelFor != options[i]) {%>
+                                <option value="<%=options[i]%>"><%=options[i]%></option>
+                              <% } %>
+                            <% } %>
+                        </select>
+                      </div>
+                    </div>
+
+
+                    <div class="p-2 w-1/2">
+                        <div class="relative">
+                          <label for="phone" class="leading-7 text-sm text-gray-600">Phone Number</label>
+                          <input value="<%=hostel.phone%>" type="tel" id="phone" name="phone" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div id="phone-error" class="text-xs text-red-600"></div>
+                        </div>
+                    </div>
+
+                    <div class="container px-5 py-20 mx-auto ">
+                        <label class="leading-7 text-sm text-gray-600">Select Available Rooms</label>
+                        <div class="flex justify-start my-5">
+                          <div class="w-5 h-5 bg-green-700 mr-7 rounded-xl"></div> <div>Vacant</div>
+                        </div>
+
+                        <div class="flex justify-start">
+                          <div class="w-5 h-5 bg-red-400 mr-7 rounded-xl"></div> <div>Occupied</div>
+                        </div>
+
+
+                    <div class="flex flex-wrap -m-4 lg:mx-8 my-2">
+
+                      <!-- style="background-color: rgba(243, 244, 246);" -->
+                      <%var found = 0;%>
+                            <% for (var i = 1; i <= hostel.nRooms; i++) { %>
+                              <% found = 0 %>
+                                <div class="p-4 w-1/2 md:w-1/6 ">
+                                    <button style="background-color: rgba(243, 244, 246);" onclick="return addOrDelete('<%=i%>')"  class="flex rounded-lg h-full p-8 flex-col cursor-pointer">
+                                      <% for(var j = 0; j < hostel.areAvailable.length; j++) { %>
+                                        <% if (hostel.areAvailable[j] == i) { %>
+                                          <% found = 1 %>
+                                          <div class="flex items-center mb-3 text-2xl" id="<%=i%>"><strong class="text-green-700"><%=i%></strong></div>
+                                        <% } %>
+                                      <% } %>
+
+                                      <% if (found == 0) { %>
+                                       <div class="flex items-center text-2xl" id="<%=i%>"><strong class="text-red-400"><%=i%></strong></div>
+                                      <% } %>
+                                    </button>
+                                </div>
+                            <% } %>
+                    
+                    </div>
+                    </div>
+
+              
+
+                    <div class="p-2 w-full">
+                      <button id="subform" class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Update</button>
+                    </div>
+                    
+                </div>
+              </div>
+             
+    
+        </form>
+        
+    
+</body>
+</html>
+
+
+
+    <%- include("../partials/footer.ejs"); -%>
+</body>
+</html>

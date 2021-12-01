@@ -1,0 +1,120 @@
+<%- include("../partials/header2.ejs"); -%>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Hostel</title>
+    <script>
+        function addColour(){
+          document.getElementById("hostel").style.color = "rgba(239, 68, 68)";
+        }
+      </script>
+</head>
+
+<body>
+    <script>addColour();</script>
+    <section class="text-gray-600 body-font mx-10">
+        <div class="flex justify-end mx-10">
+          <% if( JSON.stringify(user.hostel) === '{}' || (user.hostel.roomNo == -1 && user.hostel.hostelType == "") ) { %>
+            <button onclick="window.location.href = '/student/hostel/get-room'" class="flex mx-10 mt-20 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Get Room</button>
+          <% } else { %>
+            <button onclick="window.location.href = '/student/hostel/vacate'" class="flex mt-20 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Vacate</button>
+          <% } %>
+        </div>
+        <div class="container px-5 py-24 mx-auto">
+            <% if( JSON.stringify(user.hostel) === '{}' ) { %>
+                <div class="h-18"></div>
+                <div class="h-18">
+                  <% if(user.hostel.roomNo == -1 && user.hostel.hostelType == "") { %>
+                    <h1 class="flex justify-center text-3xl pt-10">No Rooms Available</h1>
+                  <% } else { %>
+                  <h1 class="flex justify-center text-3xl pt-10">Day Scholar</h1>
+                  <% } %>
+                </div>
+               
+            <% } else { %>
+                <section class="text-gray-600 body-font">
+                    <h1 class="text-gray-900 text-2xl title-font font-medium mb-1 mx-5">Your Hostel Details</h1>
+
+                    <div class="container px-5 py-15 mx-auto flex flex-wrap items-center">
+
+                        <table cellspacing="0">
+                            <tr>
+                                <th align="left" width="300" height="50">Full Name :</th>
+                                <td align="left" width="300" height="50"><%= user.fullname.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') %></td>
+                            </tr>
+                            <tr>
+                                <th align="left" width="350" height="50">Course :</th>
+                                <td align="left" width="300" height="50"><%= user.course.toUpperCase() %></td>
+                            </tr>
+                            <tr>
+                                <th align="left" width="350" height="50">Reg. Number :</th>
+                                <td align="left" width="300" height="50"><%= user.regno.toUpperCase() %></td>
+                            </tr>
+                            <tr>
+                                <th align="left" width="350" height="50">Guardian :</th>
+                                <td align="left" width="300" height="50"><%= user.hostel.guardian.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') %></td>
+                            </tr>
+
+                            <tr>
+                                <th align="left" width="350" height="50">Hostel :</th>
+                                <td align="left" width="300" height="50"><%= user.hostel.hostelType.toUpperCase() %></td>
+                            </tr>
+
+                            <tr>
+                                <th align="left" width="350" height="50">Room Number :</th>
+                                <td align="left" width="300" height="50"><%= user.hostel.roomNo %></td>
+                            </tr>
+                           
+            
+                        </table>
+
+                    
+                      <div class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+                        <h2 class="text-gray-900 text-lg font-medium title-font mb-5"><%=user.hostel.hostelType.toUpperCase()%> Details</h2>
+                        <div class="relative mb-4">
+                          <label for="full-name" class="leading-7 text-2xl text-gray-600">Chief Warden</label>
+                          <% var hostelEmail = '';%>
+                          <% var hostelPhone = '';%>
+
+                          <!-- <input type="text" id="full-name" name="full-name" class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
+                          <% for(var i = 0; i < hostels.length; i++) { %>
+                            <% if(user.hostel.hostelType == hostels[i].name) { %>
+                                  <p class="w-full  text-gray-700 py-1 px-3 leading-8 ease-in-out"><%=hostels[i].warden%></p>
+                                  <% hostelEmail = hostels[i].email %>
+                                  <% hostelPhone = hostels[i].phone %>
+                                  <% break; %>
+                            <% } %>
+                          <% } %>
+                        </div>
+                        <div class="relative mb-4">
+                          <label for="email" class="leading-7 text-2xl text-gray-600"> Email</label>
+                          <!-- <input type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
+                          <p class="w-full  text-gray-700 py-1 px-3 leading-8 ease-in-out"><%=hostelEmail%></p>
+                          
+                        </div>
+
+                        <div class="relative mb-4">
+                            <label for="email" class="leading-7 text-2xl text-gray-600"> Contact</label>
+                            <!-- <input type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
+                            <p class="w-full  text-gray-700 py-1 px-3 leading-8 ease-in-out"><%=hostelPhone%></p>
+                            
+                          </div>
+                        <!-- <button class="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Button</button> -->
+                        <!-- <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p> -->
+                      </div>
+                    </div>
+                  </section>
+            <% } %>
+
+        </div>
+    </section>
+    <div class="mt-20 pt-20">
+        <%- include("../partials/footer.ejs"); -%>
+    </div>
+</body>
+</html>
